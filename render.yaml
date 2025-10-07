@@ -17,7 +17,7 @@ services:
         databaseName: laravel
         user: laravel_user
 
-  - type: pserv
+  - type: pservهىيثء
     name: laravel-db
     plan: free
     diskSize: 1
