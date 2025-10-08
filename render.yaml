@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: laravel-app
+    env: docker
+    docker:
+      dockerfile: Dockerfile
+    plan: free
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+    databases:
+      - name: laraveldb
+        databaseName: laravel
+        user: laravel_user
+
+  - type: pservهىيثء
+    name: laravel-db
+    plan: free
+    diskSize: 1
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere
