@@ -43,4 +43,4 @@ RUN cp .env.example .env && php artisan key:generate
 EXPOSE 8080
 
 # تشغيل migrations + seeders ثم Nginx و PHP-FPM
-CMD sh -c "php artisan migrate --force && php artisan db:seed --class=RolePermissionSeeder --force && php artisan db:seed --class=DatabaseSeeder --force && php-fpm -D && nginx -g 'daemon off;'"
+CMD sh -c "php-fpm -D && nginx -g 'daemon off;'"
