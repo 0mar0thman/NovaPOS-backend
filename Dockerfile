@@ -4,16 +4,15 @@ FROM php:8.3-fpm
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    nginx \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
     zip \
     unzip \
     libzip-dev \
-    default-mysql-client
-
-# تنظيف cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+    default-mysql-client \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # تثبيت اكستنشنات PHP
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
@@ -27,20 +26,21 @@ WORKDIR /var/www
 # نسخ ملفات المشروع
 COPY . .
 
-# تثبيت الاعتماديات
+# نسخ إعدادات Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# تثبيت الاعتماديات PHP
 RUN composer install --no-dev --optimize-autoloader
 
 # إعداد صلاحيات المجلدات
-RUN chown -R www-data:www-data /var/www/storage
-RUN chown -R www-data:www-data /var/www/bootstrap/cache
-RUN chmod -R 775 /var/www/storage
-RUN chmod -R 775 /var/www/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && \
+    chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# نسخ ملف env
-COPY .env.example .env
+# إنشاء ملف env وتوليد key
+RUN cp .env.example .env && php artisan key:generate
 
-# توليد key
-RUN php artisan key:generate
+# فتح البورت
+EXPOSE ${PORT}
 
-EXPOSE 9000
-CMD ["php-fpm"]
+# تشغيل Nginx و PHP-FPM معًا
+CMD service nginx start && php-fpm
