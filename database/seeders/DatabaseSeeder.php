@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Faker\Generator as Faker;
+// use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        $faker = \Faker\Factory::create();
+        // $faker = \Faker\Factory::create();
 
         // استدعاء RolePermissionSeeder
         $this->call(RolePermissionSeeder::class);
