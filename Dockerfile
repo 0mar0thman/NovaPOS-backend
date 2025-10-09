@@ -36,11 +36,11 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && \
     chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# إنشاء ملف env وتوليد key
+# إنشاء ملف env وتوليد key (لو مش موجود)
 RUN cp .env.example .env && php artisan key:generate
 
 # فتح البورت
-EXPOSE ${PORT}
+EXPOSE 8080
 
-# تشغيل Nginx و PHP-FPM معًا
-CMD service nginx start && php-fpm
+# تشغيل nginx و php-fpm في وقت واحد
+CMD sh -c "php-fpm -D && nginx -g 'daemon off;'"
