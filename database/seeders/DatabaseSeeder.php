@@ -44,14 +44,5 @@ class DatabaseSeeder extends Seeder
             'role_id' => 3,
         ]);
         $user->assignRole('user');
-
-        // إنشاء 10 فئات
-        // $categories = Category::factory(10)->create();
-
-        // إنشاء 20 منتج
-        // Product::factory(20)->make()->each(function ($product) use ($categories) {
-        //     $product->category_id = $categories->random()->id;
-        //     $product->save();
-        // });
     }
 }
