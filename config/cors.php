@@ -16,7 +16,7 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'https://pos-nova.vercel.app',
+        'https://pos-nova.up.railway.app',
         'http://localhost:8080',
         'http://127.0.0.1:8080',
     ],

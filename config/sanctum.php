@@ -15,7 +15,7 @@ return [
     |
     */
 
-'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'localhost:8080,127.0.0.1:8080,127.0.0.1,localhost,pos-nova.vercel.app')),
+'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'localhost:8080,127.0.0.1:8080,127.0.0.1,localhost,pos-nova.up.railway.app')),
 
 
     /*
