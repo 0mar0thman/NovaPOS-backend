@@ -15,8 +15,9 @@ return new class extends Migration {
             $table->decimal('purchase_price', 10, 2)->default(0); // أضيف
             $table->decimal('sale_price', 10, 2);
             $table->integer('stock')->default(0);
-            $table->integer('min_stock')->default(0); // أضيف
-            $table->text('description')->nullable(); // أضيف
+            $table->integer('min_stock')->default(0);
+            $table->text('description')->nullable();
+            $table->string('standard')->default("unit");
             $table->timestamps();
 
             $table->foreign('category_id')

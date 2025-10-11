@@ -14,11 +14,12 @@ class Product extends Model
         'name',
         'barcode',
         'category_id',
-        'purchase_price', // سعر الشراء (مضاف)
+        'purchase_price',
         'sale_price',
         'stock',
-        'min_stock', // حد التنبيه (مضاف)
-        'description' // وصف المنتج (مضاف)
+        'min_stock',
+        'description',
+        'standard'
     ];
 
     public function category()

@@ -17,6 +17,7 @@ class ProductController extends Controller
             ->when($request->category_id, fn($q) => $q->where('category_id', $request->category_id))
             ->when($request->min_price, fn($q) => $q->where('sale_price', '>=', $request->min_price))
             ->when($request->max_price, fn($q) => $q->where('sale_price', '<=', $request->max_price))
+            ->when($request->standard, fn($q) => $q->where('standard', $request->standard))
             ->when(
                 $request->sort_by && $request->sort_order,
                 fn($q) => $q->orderBy($request->sort_by, $request->sort_order)
@@ -35,7 +36,8 @@ class ProductController extends Controller
             'sale_price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'min_stock' => 'nullable|integer|min:0',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'standard' => 'required|string'
         ]);
 
         return Product::create($validated);
@@ -56,7 +58,8 @@ class ProductController extends Controller
             'sale_price' => 'sometimes|numeric|min:0',
             'stock' => 'sometimes|integer|min:0',
             'min_stock' => 'nullable|integer|min:0',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'standard' => 'sometimes|string|max:255',
         ]);
 
         $product->update($validated);

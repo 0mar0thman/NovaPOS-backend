@@ -18,7 +18,7 @@ class SalesInvoiceItemController extends Controller
         $request->validate([
             'sales_invoice_id' => 'required|exists:sales_invoices,id',
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|numeric|min:0.01', // ✅ تعديل هنا
             'unit_price' => 'required|numeric|min:0',
         ]);
 
@@ -57,7 +57,7 @@ class SalesInvoiceItemController extends Controller
     public function update(Request $request, SalesInvoiceItem $salesInvoiceItem)
     {
         $request->validate([
-            'quantity' => 'sometimes|integer|min:1',
+            'quantity' => 'sometimes|numeric|min:0.01', // ✅ تعديل هنا كمان
             'unit_price' => 'sometimes|numeric|min:0',
         ]);
 

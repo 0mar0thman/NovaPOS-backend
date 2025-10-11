@@ -58,24 +58,22 @@ class SalesInvoiceController extends Controller
             'phone' => 'nullable|string|max:20',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.quantity' => 'required|numeric|min:0.001', // ✅ تم التعديل هنا
             'items.*.unit_price' => 'required|numeric|min:0',
             'items.*.total_price' => 'required|numeric|min:0',
             'paid_amount' => 'nullable|numeric|min:0',
             'payment_method' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
-            // إضافة الحقول الجديدة
             'user_name' => 'nullable|string|max:255',
-            'cashier_name' => 'nullable|string|max:255', 
+            'cashier_name' => 'nullable|string|max:255',
         ]);
 
         try {
             return DB::transaction(function () use ($validated) {
                 $paidAmount = $validated['paid_amount'] ?? 0;
                 $totalAmount = collect($validated['items'])->sum(fn($item) => $item['total_price']);
-                $status = $this->determineStatus($totalAmount, $paidAmount); 
+                $status = $this->determineStatus($totalAmount, $paidAmount);
 
-                // الحصول على بيانات المستخدم الحالي
                 $user = auth()->user();
 
                 $invoice = SalesInvoice::create([
@@ -91,7 +89,6 @@ class SalesInvoiceController extends Controller
                     'notes' => $validated['notes'] ?? null,
                     'user_id' => $user->id,
                     'cashier_id' => $user->id,
-                    // تخزين الأسماء
                     'user_name' => $validated['user_name'] ?? $user->name,
                     'cashier_name' => $validated['cashier_name'] ?? $user->name,
                 ]);
@@ -100,14 +97,13 @@ class SalesInvoiceController extends Controller
                     $product = Product::find($item['product_id']);
                     $invoice->items()->create([
                         'product_id' => $item['product_id'],
-                        'quantity' => $item['quantity'],
+                        'quantity' => $item['quantity'], // 👈 يقبل ديسمال دلوقتي
                         'unit_price' => $item['unit_price'],
                         'total_price' => $item['total_price'],
                     ]);
                     $product->decrement('stock', $item['quantity']);
                 }
 
-                // تحديث إحصائيات العميل إذا كان مرتبطاً
                 if ($validated['customer_id']) {
                     $customer = Customer::find($validated['customer_id']);
                     $customer->increment('purchases_count');
@@ -115,7 +111,6 @@ class SalesInvoiceController extends Controller
                     $customer->update(['last_purchase_date' => now()]);
                 }
 
-                // تحميل العلاقات بشكل مشروط
                 $invoice->load(['items.product', 'creator']);
                 if ($validated['customer_id']) {
                     $invoice->load('customer');
@@ -131,6 +126,7 @@ class SalesInvoiceController extends Controller
             ], 500);
         }
     }
+
 
     public function show(SalesInvoice $salesInvoice)
     {
