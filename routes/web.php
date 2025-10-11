@@ -10,41 +10,29 @@ use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| - /home => يعرض Laravel (مثلاً welcome.blade.php)
-| - / => يعرض React (index.html)
-| - /api/... => يظل للـ API
+| - /api/... => خاص بالـ API (في routes/api.php)
+| - /sanctum/csrf-cookie => خاص بالأمان
+| - / => React index.html
 | - أي Route تاني => fallback إلى React
 |
 */
 
-Route::get('/home', function () {
-    return view('welcome');
-})->name('home');
-
-// Route لتأمين CSRF لـ Sanctum (لو بتستخدم React + Laravel API)
+// Route CSRF خاص بـ Sanctum
 Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])
     ->name('sanctum.csrf');
 
-// المسار الأساسي: يفتح تطبيق React
+// Route رئيسي للـ React App
 Route::get('/', function () {
-    $path = public_path('index.html');
-
-    if (File::exists($path)) {
-        return Response::file($path);
-    }
-
-    abort(404, 'React app not found.');
+    return Response::file(public_path('index.html'));
 });
 
-// fallback لأي Route غير معروف (علشان React Router)
+// Fallback لأي Route Frontend فقط (ليس API)
 Route::fallback(function () {
-    $path = public_path('index.html');
-
     if (!request()->is('api/*')) {
+        $path = public_path('index.html');
         if (File::exists($path)) {
             return Response::file($path);
         }
     }
-
-    abort(404, 'Page not found.');
+    abort(404);
 });
