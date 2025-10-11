@@ -46,7 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}/trashed', [UserController::class, 'trashed']);
         Route::delete('/{id}/force-delete', [UserController::class, 'forceDelete']);
 
-         Route::post('/{id}/restore', [UserController::class, 'restore']);
+        Route::post('/{id}/restore', [UserController::class, 'restore']);
         Route::delete('/{id}/force-delete', [UserController::class, 'forceDelete']);
 
         // Assign/Remove Role to User
@@ -61,6 +61,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Categories
     Route::apiResource('categories', CategoryController::class);
+
+    Route::get('/debug-db', function () {
+        try {
+            return \App\Models\Category::all();
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    });
+
 
     // Products
     Route::apiResource('products', ProductController::class);
