@@ -40,8 +40,10 @@ Route::get('/', function () {
 Route::fallback(function () {
     $path = public_path('index.html');
 
-    if (File::exists($path)) {
-        return Response::file($path);
+    if (!request()->is('api/*')) {
+        if (File::exists($path)) {
+            return Response::file($path);
+        }
     }
 
     abort(404, 'Page not found.');
