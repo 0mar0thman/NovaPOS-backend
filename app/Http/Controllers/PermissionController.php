@@ -11,8 +11,8 @@ class PermissionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
-        $this->middleware('permission:manage-All')->only(['index']);
+        // $this->middleware('auth:sanctum');
+        // $this->middleware('permission:manage-All')->only(['index']);
     }
 
     public function index(): JsonResponse
