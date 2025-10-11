@@ -15,6 +15,7 @@ use App\Http\Controllers\SalesInvoiceItemController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SalesReturnController;
 use App\Http\Controllers\SupplierController;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +72,16 @@ Route::middleware('auth:sanctum')->group(function () {
             ], 500);
         }
     });
+
+    Route::get('/debug-db-connection', function() {
+    try {
+        \DB::connection()->getPdo();
+        return response()->json(['status' => 'DB connected']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});
+
 
 
     // Products
