@@ -16,8 +16,19 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return Category::withCount('products')->get();
+        try {
+            // نجلب كل الفئات مع عدد المنتجات المرتبطة
+            $categories = Category::withCount('products')->get();
+            return response()->json($categories);
+        } catch (\Throwable $e) {
+            // لو حصل أي خطأ، نرجع رسالة الخطأ والتفاصيل
+            return response()->json([
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ], 500);
+        }
     }
+
 
     public function store(Request $request)
     {

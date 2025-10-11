@@ -59,30 +59,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{user}/permissions/{permission}', [UserController::class, 'removePermission']);
     });
 
-
     // Categories
     Route::apiResource('categories', CategoryController::class);
-
-    Route::get('/debug-db', function () {
-        try {
-            return \App\Models\Category::all();
-        } catch (\Throwable $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-    });
-
-    Route::get('/debug-db-connection', function() {
-    try {
-        \DB::connection()->getPdo();
-        return response()->json(['status' => 'DB connected']);
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()]);
-    }
-});
-
-
 
     // Products
     Route::apiResource('products', ProductController::class);
