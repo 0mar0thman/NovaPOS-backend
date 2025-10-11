@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->integer('stock')->default(0);
             $table->integer('min_stock')->default(0);
             $table->text('description')->nullable();
-            $table->string('standard')->default("unit");
+            $table->string('standard')->default('unit');
             $table->timestamps();
 
             $table->foreign('category_id')
