@@ -9,26 +9,15 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:read-Category')->only(['index', 'show']);
-        $this->middleware('permission:create-Category')->only('store');
-        $this->middleware('permission:update-Category')->only('update');
+        // $this->middleware('permission:read-Category')->only(['index', 'show']);
+        // $this->middleware('permission:create-Category')->only('store');
+        // $this->middleware('permission:update-Category')->only('update');
     }
 
     public function index()
     {
-        try {
-            // نجلب كل الفئات مع عدد المنتجات المرتبطة
-            $categories = Category::withCount('products')->get();
-            return response()->json($categories);
-        } catch (\Throwable $e) {
-            // لو حصل أي خطأ، نرجع رسالة الخطأ والتفاصيل
-            return response()->json([
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ], 500);
-        }
+        return Category::withCount('products')->get();
     }
-
 
     public function store(Request $request)
     {
