@@ -152,7 +152,7 @@ class PurchaseInvoiceController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|numeric|min:1',
             'items.*.unit_price' => 'required|numeric|min:0',
-            'items.*.number_of_units' => 'required|numeric|min:1',
+            'items.*.number_of_units' => 'required|numeric|min:0.001',
             'items.*.amount_paid' => 'required|numeric|min:0',
             'items.*.expiry_date' => 'nullable|date|after_or_equal:today',
             'notes' => 'nullable|string',
@@ -272,7 +272,7 @@ class PurchaseInvoiceController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|numeric|min:1',
             'items.*.unit_price' => 'required|numeric|min:0',
-            'items.*.number_of_units' => 'required|numeric|min:1',
+            'items.*.number_of_units' => 'required|numeric|min:0.001',
             'items.*.amount_paid' => 'nullable|numeric|min:0',
             'items.*.expiry_date' => 'nullable|date|after_or_equal:today',
         ]);

@@ -25,7 +25,7 @@ class PurchaseInvoiceItemController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
             'unit_price' => 'required|numeric|min:0',
-            'number_of_units' => 'required|integer|min:1',
+            'number_of_units' => 'required|integer|min:0.001',
             'amount_paid' => 'required|numeric|min:0',
             'expiry_date' => 'nullable|date|after_or_equal:today',
         ]);
@@ -88,7 +88,7 @@ class PurchaseInvoiceItemController extends Controller
         $validator = Validator::make($request->all(), [
             'quantity' => 'required|integer|min:1',
             'unit_price' => 'required|numeric|min:0',
-            'number_of_units' => 'required|integer|min:1',
+            'number_of_units' => 'required|integer|min:0.001',
             'amount_paid' => 'nullable|numeric|min:0', // تم التعديل من required إلى nullable
             'expiry_date' => 'nullable|date|after_or_equal:today',
         ]);
