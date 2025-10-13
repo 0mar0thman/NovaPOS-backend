@@ -7,10 +7,10 @@ export PORT=${PORT:-8080}
 echo "⏳ Waiting for database..."
 sleep 5
 
-echo "🚀 Running migrations and seeders..."
-php artisan migrate:refresh --force
-php artisan db:seed --class=RolePermissionSeeder --force
-php artisan db:seed --class=DatabaseSeeder --force
+# echo "🚀 Running migrations and seeders..."
+# php artisan migrate:refresh --force
+# php artisan db:seed --class=RolePermissionSeeder --force
+# php artisan db:seed --class=DatabaseSeeder --force
 
 echo "✅ Starting PHP-FPM and Nginx on port $PORT..."
 php-fpm -D
