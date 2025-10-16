@@ -11,9 +11,9 @@ until php -r "try { new PDO(getenv('DB_CONNECTION').':host='.getenv('DB_HOST').'
   sleep 3
 done
 
-echo ""
-echo "🚀 Running migrations..."
-php artisan migrate --force || echo "⚠️ Migrations failed, continuing anyway..."
+# echo ""
+# echo "🚀 Running migrations..."
+# php artisan migrate --force || echo "⚠️ Migrations failed, continuing anyway..."
 
 # php artisan db:seed --class=RolePermissionSeeder --force
 # php artisan db:seed --class=DatabaseSeeder --force
