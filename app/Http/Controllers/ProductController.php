@@ -34,7 +34,7 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'purchase_price' => 'nullable|numeric|min:0',
             'sale_price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
+            'stock' => 'required|numeric|min:0.001',
             'min_stock' => 'nullable|integer|min:0',
             'description' => 'nullable|string',
             'standard' => 'required|string'
@@ -56,7 +56,7 @@ class ProductController extends Controller
             'category_id' => 'sometimes|exists:categories,id',
             'purchase_price' => 'sometimes|numeric|min:0',
             'sale_price' => 'sometimes|numeric|min:0',
-            'stock' => 'sometimes|integer|min:0',
+            'stock' => 'sometimes|numeric|min:0.001',
             'min_stock' => 'nullable|integer|min:0',
             'description' => 'nullable|string',
             'standard' => 'sometimes|string|max:255',
